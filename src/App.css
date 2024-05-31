@@ -11,12 +11,12 @@
     width: 100%;
 }
 
-.app_header{
+.app_header {
     color: #1b1b1e;
     display: flex;
     box-sizing: border-box;
     align-items: center;
-    background-color:  #FFFFFF;
+    background-color: #FFFFFF;
     padding: 0 2.5rem;
     box-shadow: rgba(0, 0, 0, 0.075) 0 1px;
     height: 90px;
@@ -24,7 +24,7 @@
     transition: background-color 0.25s ease-out 0s;
 }
 
-.app_header h1{
+.app_header h1 {
     color: #615EFC;
     font-size: 2.2vw;
     font-weight: 700;
@@ -39,7 +39,7 @@
     background-color: #f2f4fe;
 }
 
-.current-sentence{
+.current-sentence {
     margin-bottom: 1rem;
     font-size: inherit;
 }
@@ -49,12 +49,12 @@
     color: #1b1b1e;
 }
 
-.all-sentences{
+.all-sentences {
     font-size: 1rem;
     font-weight: 300;
 }
 
-.currently-reading .currently-reading-text { 
+.currently-reading .currently-reading-text {
     font-size: inherit;
 }
 
@@ -65,7 +65,7 @@
     padding: 2rem 2.5rem;
 }
 
-button  {
+button {
     background-color: #615EFC;
     color: #FFFFFF;
     border: none;
@@ -81,11 +81,11 @@ button  {
     font-weight: 600;
 }
 
-button:hover  {
+button:hover {
     background-color: #373f51;
 }
 
-.currently_reading .loading p{
+.currently_reading .loading p {
     color: #1b1b1e;
     font-size: 1.5rem;
 }
@@ -111,7 +111,13 @@ button:hover  {
 }
 
 @keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.4; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
+    }
 }
