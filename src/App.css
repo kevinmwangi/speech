@@ -1,0 +1,21 @@
+.currently-reading { 
+
+}
+
+.currently-reading .currently-reading-text { 
+    font-size: 24px;
+}
+
+.currently-reading .currently-reading-text .currentword { 
+    font-size: 24px;
+    color: red;
+}
+
+.controls {
+    padding: 2rem 1rem;
+}
+
+.play, .pause {
+    background-color: #615EFC;
+    color: #FFFFFF;
+}
