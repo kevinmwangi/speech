@@ -9,43 +9,43 @@ import { createSpeechEngine, PlayingState } from './speech';
   This hook should return react friendly controls for playing, and pausing audio as well as provide information about
   the currently read word and sentence
 */
-const useSpeech = (sentences: Array<string>) => {
-  const [currentSentenceIdx, setCurrentSentenceIdx] = useState(0);
-  const [currentWordRange, setCurrentWordRange] = useState([0, 0]);
-  const [playbackState, setPlaybackState] = useState<PlayingState>("paused");
+const useSpeech = ( sentences: Array<string> ) => {
+	const [ currentSentenceIdx, setCurrentSentenceIdx ] = useState( 0 );
+	const [ currentWordRange, setCurrentWordRange ] = useState<[ number, number ]>( [ 0, 0 ] );
+	const [ playbackState, setPlaybackState ] = useState<PlayingState>( "paused" );
 
-  const speechEngine = createSpeechEngine({
-    onBoundary: (e) => {
-      setCurrentSentenceIdx(e.charIndex, e.charLength);
-    },
-    onEnd: (e) => {
-      setCurrentSentenceIdx((idx) => idx + 1);
-    },
-    onStateUpdate: (state: PlayingState) => {
-      setPlaybackState(state)
-    }
-  });
+	const speechEngine = createSpeechEngine( {
+		onBoundary: ( e ) => {
+			setCurrentWordRange( [ e.charIndex || 0, e.charIndex + e.charLength || 0 ] );
+		}, onEnd: () => {
+			if ( currentSentenceIdx + 1 < sentences.length ) {
+				setCurrentSentenceIdx( ( idx ) => idx < sentences.length - 1 ? idx + 1 : 0 );
+			}
+		}, onStateUpdate: ( state: PlayingState ) => {
+			setPlaybackState( state )
+		}
+	} );
 
-  useEffect(() => {
-    if ( sentences.length > 0 ){
-      speechEngine.load(sentences[currentSentenceIdx])
-    }
-  },[sentences, currentSentenceIdx]);
+	useEffect( () => {
+		if ( sentences.length > 0 && currentSentenceIdx < sentences.length ) {
+			speechEngine.load( sentences[currentSentenceIdx] )
+		}
+	}, [ sentences, currentSentenceIdx ] );
 
-  const play = () => {
-    speechEngine.play();
-  };
-  const pause = () => {
-    speechEngine.pause()
-  };
+	const play = () => {
 
-  return {
-    currentSentenceIdx,
-    currentWordRange,
-    playbackState,
-    play,
-    pause,
-  };
+		if ( !speechEngine.state.utterance && currentSentenceIdx < sentences.length ) {
+			speechEngine.load( sentences[currentSentenceIdx] );
+		}
+		speechEngine.play();
+	};
+	const pause = () => {
+		speechEngine.pause()
+	};
+
+	return {
+		currentSentenceIdx, currentWordRange, playbackState, play, pause,
+	};
 };
 
 export { useSpeech };
