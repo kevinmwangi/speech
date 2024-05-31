@@ -8,39 +8,34 @@
  * See example.gif for an example of how the component should look like, feel free to style it however you want as long
  * as the testID exists
  */
-export const CurrentlyReading = ({
-  currentWordRange,
-  currentSentenceIdx,
-  sentences,
+export const CurrentlyReading = ( {
+	currentWordRange, currentSentenceIdx, sentences,
 }: {
-  currentWordRange: [number, number];
-  currentSentenceIdx: number;
-  sentences: string[];
-}) => {
-    const sentence = sentences[currentSentenceIdx];
+	currentWordRange: [ number, number ]; currentSentenceIdx: number; sentences: string[];
+} ) => {
+	const sentence = sentences[currentSentenceIdx];
+	let startIdx = currentWordRange[0];
+	while ( startIdx > 0 && sentence[startIdx] !== ' ' ) {
+		startIdx--;
+	}
 
-    let startIdx = currentWordRange[0];
-    while (startIdx > 0 && sentence[startIdx] !== ' ') {
-        startIdx--;
-    }
+	let endIdx = currentWordRange[1];
+	while ( endIdx < sentence?.length && sentence[endIdx] !== ' ' ) {
+		endIdx++;
+	}
 
-    let endIdx = currentWordRange[1];
-    while (endIdx < sentence?.length && sentence[endIdx] !== ' ') {
-        endIdx++;
-    }
+	const beforeWord = sentence?.slice( 0, startIdx );
+	const word = sentence?.slice( startIdx, endIdx );
+	const afterWord = sentence?.slice( endIdx );
 
-    const beforeWord = sentence?.slice(0, startIdx);
-    const word = sentence?.slice(startIdx, endIdx);
-    const afterWord = sentence?.slice(endIdx);
 
-  return ( <div data-testid="currently-reading">
+	return ( <div data-testid="currently-reading">
+			<p className="current-sentence" data-testid="current-sentence">
+				{beforeWord}<span className="current_word" data-testid="current-word">{word}</span>{afterWord}
+			</p>
 
-          <p className="current-sentence" data-testid="current-sentence">
-              {beforeWord}<span className="current_word" data-testid="current-word">{word}</span>{afterWord}
-          </p>
-
-          <p className="all-sentences">
-              {sentences.join( ' ' )}
-          </p>
-      </div> )
+			<p className="all-sentences">
+				{sentences.join( ' ' )}
+			</p>
+		</div> )
 };

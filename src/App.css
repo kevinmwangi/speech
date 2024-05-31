@@ -3,7 +3,7 @@
 .app {
     border: 0.063rem solid rgba(0, 0, 0, 0.075);
     font-family: "Poppins", sans-serif;
-    font-size: 1rem;
+    font-size: 1.125rem;
     font-weight: 400;
     font-style: normal;
     margin: 0 auto;
@@ -49,6 +49,11 @@
     color: #1b1b1e;
 }
 
+.all-sentences{
+    font-size: 1rem;
+    font-weight: 300;
+}
+
 .currently-reading .currently-reading-text { 
     font-size: inherit;
 }
@@ -78,4 +83,35 @@ button  {
 
 button:hover  {
     background-color: #373f51;
+}
+
+.currently_reading .loading p{
+    color: #1b1b1e;
+    font-size: 1.5rem;
+}
+
+.dot {
+    color: #615EFC;
+    font-size: 5rem;
+    animation-name: pulse;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+}
+
+.dot:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 1s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 1.5s;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
 }
