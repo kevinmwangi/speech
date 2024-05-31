@@ -1,7 +1,6 @@
 import {
   describe,
   expect,
-  expectTypeOf,
   it,
 } from 'vitest';
 
@@ -14,7 +13,7 @@ const testCases = [
     expected: ["This is a sentence."],
   },
   {
-    name: "Parses ssml wtih multiple correctly formatted ssml",
+    name: "Parses ssml with multiple correctly formatted ssml",
     content:
       "<speak><s>This is a sentence.</s><s>This is another sentence</s></speak>",
     expected: ["This is a sentence.", "This is another sentence"],
@@ -43,17 +42,19 @@ const testCases = [
 ];
 
 describe("parseContent Test Suite", () => {
-  it("returns an array of sentences", () => {
-    const sentences = parseContentIntoSentences(testCases[0].content);
-    expectTypeOf(sentences).toBeArray;
+  it("returns an array of sentences", async () => {
+    const sentences = await parseContentIntoSentences(testCases[0].content);
+    expect(sentences).toStrictEqual(testCases[0].expected);
   });
 
-  it("throws an error when ssml is invalid i.e does not start with <speak>", () => {
-    expect(() => parseContentIntoSentences("This is not valid ssml")).toThrow();
+  it("returns an empty array when ssml is invalid or does not start with <speak>", async () => {
+    const invalidContent = "This is not valid ssml";
+    const sentences = await parseContentIntoSentences(invalidContent);
+    expect(sentences).to.deep.equal([]);
   });
 
-  it.each(testCases)("$name", ({ name, content, expected }) => {
-    const sentences = parseContentIntoSentences(content);
-    expect(sentences).toEqual(expected);
+  it.each(testCases)("$name", async ({ content, expected }) => {
+    const sentences = await parseContentIntoSentences(content);
+    expect(sentences).to.deep.equal(expected);
   });
 });

@@ -13,29 +13,26 @@ export const CurrentlyReading = ( {
 }: {
 	currentWordRange: [ number, number ]; currentSentenceIdx: number; sentences: string[];
 } ) => {
-	const sentence = sentences[currentSentenceIdx];
-	let startIdx = currentWordRange[0];
-	while ( startIdx > 0 && sentence[startIdx] !== ' ' ) {
-		startIdx--;
-	}
+	// const sentence = sentences[currentSentenceIdx];
+	// const word = sentence?.slice(currentWordRange[0], currentWordRange[1]);
+	//
+	// const beforeWord = sentence?.slice(0, currentWordRange[0]);
+	// const afterWord = sentence?.slice(currentWordRange[1]);
 
-	let endIdx = currentWordRange[1];
-	while ( endIdx < sentence?.length && sentence[endIdx] !== ' ' ) {
-		endIdx++;
-	}
+	const currentSentence = sentences[currentSentenceIdx] || "";
+	const beforeWord = currentSentence.slice(0, currentWordRange[0]);
+	const currentWord = currentSentence.slice(currentWordRange[0], currentWordRange[1]);
+	const afterWord = currentSentence.slice(currentWordRange[1]);
 
-	const beforeWord = sentence?.slice( 0, startIdx );
-	const word = sentence?.slice( startIdx, endIdx );
-	const afterWord = sentence?.slice( endIdx );
-
-
-	return ( <div data-testid="currently-reading">
+	return (
+		<div data-testid="currently-reading">
 			<p className="current-sentence" data-testid="current-sentence">
-				{beforeWord}<span className="current_word" data-testid="current-word">{word}</span>{afterWord}
+				{/*{sentence} <span className="current_word" data-testid="current-word">{word}</span>*/}
+				{beforeWord}<span className="current_word" data-testid="current-word">{currentWord}</span>{afterWord}
 			</p>
-
 			<p className="all-sentences">
-				{sentences.join( ' ' )}
+				{sentences.join(' ')}
 			</p>
-		</div> )
+		</div>
+	);
 };

@@ -10,29 +10,34 @@ function App(){
 	const [ sentences, setSentences ] = useState<Array<string>>( [] );
 	const { currentSentenceIdx, currentWordRange, playbackState, play, pause } = useSpeech( sentences );
 	const [isLoading, setIsLoading] = useState(true);
-	const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 	useEffect( () => {
 		loadNewContent();
 	}, [] );
 
 	const loadNewContent = async () => {
-		setIsLoading(true);
+		try {
+			setIsLoading(true); // Start loading
 
-		await Promise.all([
-			(async () => {
-				try {
-					const content = await fetchContent();
-					const parsedSentences = parseContentIntoSentences(content) || [];
-					setSentences(parsedSentences);
-				} catch (error) {
-					console.error(error);
-				}
-			})(),
-			delay(1000)
-		]);
+			// Fetch content from API
+			const content = await fetchContent();
 
-		setIsLoading(false);
+			// Parse content into sentences
+			const parsedSentences = await parseContentIntoSentences(content);
+
+			// Handle case when no sentences are found
+			if (!parsedSentences) {
+				console.error("No sentences found in content");
+				return;
+			}
+
+			// Set sentences state
+			setSentences(parsedSentences);
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setIsLoading(false); // End loading
+		}
 	};
 
 	return (
